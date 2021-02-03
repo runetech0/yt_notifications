@@ -15,8 +15,13 @@ def index():
     print(f'Got a {request.method} request!')
     if request.method == 'POST':
         response = request.body.read().decode('utf-8')
+        print('This is response!')
+        print(response)
+        print('-----------------------------\n')
         root = XML.fromstring(response)
+        print('This is root')
         print(root)
+        print('-----------------------------\n')
 
         for entry in root.findall('xmlns:entry', namespaces=namespaces):
             video_id = entry.find('yt:videoId', namespaces=namespaces).text
