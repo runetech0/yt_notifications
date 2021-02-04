@@ -37,7 +37,9 @@ def index():
         mode = request.query['hub.mode']
         challenge = request.query['hub.challenge']
         verify_token = request.query['hub.verify_token']
+        print(mode, challenge, verify_token)
     except KeyError:
+        print('KeyError, Aborting')
         abort(404)
 
     if mode == 'subscribe' and verify_token == secret:
