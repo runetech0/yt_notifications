@@ -33,16 +33,16 @@ def index():
 
         return 'Goodly'
 
-    # try:
-    #     mode = request.query['hub.mode']
-    #     challenge = request.query['hub.challenge']
-    #     verify_token = request.query['hub.verify_token']
-    # except KeyError:
-    #     abort(404)
+    try:
+        mode = request.query['hub.mode']
+        challenge = request.query['hub.challenge']
+        verify_token = request.query['hub.verify_token']
+    except KeyError:
+        abort(404)
 
-    # if mode == 'subscribe' and verify_token == secret:
-    #     return challenge
-    # abort(404)
+    if mode == 'subscribe' and verify_token == secret:
+        return challenge
+    abort(404)
     if request.method == 'GET':
         print('Got GET request')
 
