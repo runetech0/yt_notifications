@@ -13,6 +13,7 @@ namespaces = {
 @route('/callback', method='post')
 def index():
     print(f'Got a {request.method} request!')
+    print()
     if request.method == 'POST':
         response = request.body.read().decode('utf-8')
         print('This is response!')
@@ -35,8 +36,11 @@ def index():
 
     try:
         mode = request.query['hub.mode']
+        print(mode)
         challenge = request.query['hub.challenge']
+        print(challenge)
         verify_token = request.query['hub.verify_token']
+        print(verify_token)
         print(mode, challenge, verify_token)
     except KeyError:
         print('KeyError, Aborting')
