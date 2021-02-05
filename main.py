@@ -1,12 +1,32 @@
 from bottle import route, run, request, default_app, abort, app
 import xml.etree.ElementTree as XML
+import asyncio
+from discord import Webhook, AsyncWebhookAdapter
+import aiohttp
+
 
 secret = 'some_url_safe_secret'
+
+WEBHOOK_URL = 'https://discord.com/api/webhooks/775951551549669396/YgODsMEkPMhKm_qzTPPNxeYR-jTPHU9dYX_XbhtGy2cwV2Lr9I-N4KSSO6CVSStkjtwo'
 
 namespaces = {
     'yt': 'http://www.youtube.com/xml/schemas/2015',
     'xmlns': 'http://www.w3.org/2005/Atom'
 }
+
+'''
+To subscribe to a channel's notifications go to https://pubsubhubbub.appspot.com/subscribe
+And use this URL --> ( https://www.youtube.com/xml/feeds/videos.xml?channel_id=TARGET_CHANNEL_ID )
+
+'''
+
+
+async def send_to_target(message):
+    print('Sending to target')
+    async with aiohttp.ClientSession() as session:
+        webhook = Webhook.from_url(
+            WEBHOOK_URL, adapter=AsyncWebhookAdapter(session))
+        await webhook.send(message, username='YouTube Notifications')
 
 
 @route('/callback', method='get')
@@ -30,7 +50,8 @@ def index():
                     author = el.text
 
             message = f'{author} just posted a video on youtube!\nCheck this out {link}'
-            print(message)
+            asyncio.get_event_loop().run_until_complete(send_to_target(message))
+            print('Message sent!')
 
         # Do Something Here
 
