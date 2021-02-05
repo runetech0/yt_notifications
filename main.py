@@ -3,11 +3,11 @@ import xml.etree.ElementTree as XML
 import asyncio
 from discord import Webhook, AsyncWebhookAdapter
 import aiohttp
+import json
 
+config = json.load(open('config.json', 'r'))
 
-secret = 'some_url_safe_secret'
-
-WEBHOOK_URL = 'https://discord.com/api/webhooks/775951551549669396/YgODsMEkPMhKm_qzTPPNxeYR-jTPHU9dYX_XbhtGy2cwV2Lr9I-N4KSSO6CVSStkjtwo'
+WEBHOOK_URL = config.get("WEBHOOK_URL")
 notified = []
 
 namespaces = {
