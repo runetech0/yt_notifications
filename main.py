@@ -35,10 +35,12 @@ def index():
         return 'Goodly'
 
     try:
-        print(dir(request))
+        print(request)
         mode = request.query['hub.mode']
+        print('\nMode')
         print(mode)
         challenge = request.query['hub.challenge']
+        print('\nChallenge')
         print(challenge)
         verify_token = request.query['hub.verify_token']
         print(verify_token)
