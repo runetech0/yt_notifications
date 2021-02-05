@@ -16,19 +16,23 @@ def index():
     print()
     if request.method == 'POST':
         response = request.body.read().decode('utf-8')
-        print('This is response!')
-        print(response)
-        print('-----------------------------\n')
         root = XML.fromstring(response)
-        print('This is root')
-        print(root)
-        print('-----------------------------\n')
 
         for entry in root.findall('xmlns:entry', namespaces=namespaces):
+            deleted = entry.find('at:deleted-entry')
+            if deleted:
+                # return
+                pass
             video_id = entry.find('yt:videoId', namespaces=namespaces).text
             title = entry.find('xmlns:title', namespaces=namespaces).text
             link = entry.find('xmlns:link', namespaces=namespaces).get('href')
-            print(video_id, title, link)
+            for el in entry.find(
+                    'xmlns:author', namespaces=namespaces):
+                if el.tag.split('}')[-1] == 'name':
+                    author = el.text
+
+            message = f'{author} just posted a video on youtube!\nCheck this out {link}'
+            print(message)
 
         # Do Something Here
 
