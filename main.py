@@ -42,6 +42,7 @@ def index():
         challenge = request.query['hub.challenge']
         print('\nChallenge')
         print(challenge)
+        return challenge
         verify_token = request.query['hub.verify_token']
         print(verify_token)
         print(mode, challenge, verify_token)
