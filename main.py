@@ -8,6 +8,7 @@ import aiohttp
 secret = 'some_url_safe_secret'
 
 WEBHOOK_URL = 'https://discord.com/api/webhooks/775951551549669396/YgODsMEkPMhKm_qzTPPNxeYR-jTPHU9dYX_XbhtGy2cwV2Lr9I-N4KSSO6CVSStkjtwo'
+notified = []
 
 namespaces = {
     'yt': 'http://www.youtube.com/xml/schemas/2015',
@@ -40,7 +41,7 @@ def index():
             deleted = entry.find('at:deleted-entry')
             if deleted:
                 # return
-                pass
+                return
             video_id = entry.find('yt:videoId', namespaces=namespaces).text
             title = entry.find('xmlns:title', namespaces=namespaces).text
             link = entry.find('xmlns:link', namespaces=namespaces).get('href')
@@ -50,7 +51,11 @@ def index():
                     author = el.text
 
             message = f'{author} just posted a video on youtube!\nCheck this out {link}'
+            if link in notified:
+                return
             asyncio.get_event_loop().run_until_complete(send_to_target(message))
+            notified.append(link)
+            notified = notified[-100:]
             print('Message sent!')
 
         # Do Something Here
