@@ -35,6 +35,7 @@ def index():
         return 'Goodly'
 
     try:
+        print(dir(request))
         mode = request.query['hub.mode']
         print(mode)
         challenge = request.query['hub.challenge']
