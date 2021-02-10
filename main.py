@@ -24,15 +24,17 @@ And use this URL --> ( https://www.youtube.com/xml/feeds/videos.xml?channel_id=T
 
 async def send_to_target(message):
     print('Sending to target')
+    username = config.get("BOT_NAME")
     async with aiohttp.ClientSession() as session:
         webhook = Webhook.from_url(
             WEBHOOK_URL, adapter=AsyncWebhookAdapter(session))
-        await webhook.send(message, username='YouTube Notifications')
+        await webhook.send(message, username=username)
 
 
 @route('/callback', method='get')
 @route('/callback', method='post')
 def index():
+    global notified
     if request.method == 'POST':
         response = request.body.read().decode('utf-8')
         root = XML.fromstring(response)
@@ -50,7 +52,9 @@ def index():
                 if el.tag.split('}')[-1] == 'name':
                     author = el.text
 
-            message = f'{author} just posted a video on youtube!\nCheck this out {link}'
+            message = config.get("DESCRIPTION")
+            message = message.replace(
+                'VIDEO_LINK_HERE', link).replace('AUTHOR_HERE', author)
             if link in notified:
                 return
             asyncio.get_event_loop().run_until_complete(send_to_target(message))

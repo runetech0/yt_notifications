@@ -1,3 +1,5 @@
 {
-    "WEBHOOK_URL": "https://discord.com/api/webhooks/775951551549669396/YgODsMEkPMhKm_qzTPPNxeYR-jTPHU9dYX_XbhtGy2cwV2Lr9I-N4KSSO6CVSStkjtwo"
+    "WEBHOOK_URL": "https://discord.com/api/webhooks/775951551549669396/YgODsMEkPMhKm_qzTPPNxeYR-jTPHU9dYX_XbhtGy2cwV2Lr9I-N4KSSO6CVSStkjtwo",
+    "DESCRIPTION": "AUTHOR_HERE just posted a video on youtube\nGo to VIDEO_LINK_HERE to check that out!",
+    "BOT_NAME": "Youtube Notifications"
 }
